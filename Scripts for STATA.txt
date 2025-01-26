@@ -1,0 +1,19 @@
+Written at the beginning: This includes all the code analyzed in the article. The tools used for analysis include the "gemtc" package in R4.2.2 and STATA 15. The initial data for the analysis is publicly available in Supplementary Table S4. Here is the script for anlysis in STATA 15.
+
+(1) For binary variables (PSA Response Rate, adverse events):
+ssc install sencode
+network setup responders samplesize, studyvar(study) trtvar(treatment) format(augment) rr
+network map,improve
+network convert pairs
+netfunnel _y _stderr _t1 _t2,random bycomparison addplot(lfit _stderr _ES_CEN)
+metabias6 _y _stderr
+
+(2) For continuous variable in survival analysis (Overall survival, radiographic Progression-free Survival, Time to PSA Progression):
+network import,tr( treatment1 treatment2 ) eff( diff ) study(study) stderr( stderr)
+networkplot treatment1 treatment2
+netfunnel diff stderr _t1 _t2,bycomparison
+metabias6 diff stderr
+
+(3) For trim and fill analysis (for endpoints with potential publication bias):
+ssc install metatrim
+metatrim _y_stderr , reffect funnel
