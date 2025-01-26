@@ -1,0 +1,1 @@
+Written at the beginning: This includes all the code analyzed in the article. The tools used for analysis include the "gemtc" package in R4.2.2 and STATA15. The initial data for the analysis is publicly available in Supplementary Table S4
